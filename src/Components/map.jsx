@@ -2,11 +2,12 @@ import { GoogleMap, Circle, MarkerF, useJsApiLoader } from '@react-google-maps/a
 import React, { useState } from 'react';
 import { useDbUpdate, useDbData } from '../utilities/firebase';
 
-function getLoc(setLat, setLong, updateDb) {
+function getLoc(setLat, setLong, updateDb, data) {
     navigator.geolocation.getCurrentPosition((position) => {
         setLat(position.coords.latitude);
         setLong(position.coords.longitude);
-        updateDb({1 : `${position.coords.latitude},${position.coords.longitude}`})
+        const l = Object.entries(data).length+1;
+        updateDb({[l] : `${position.coords.latitude},${position.coords.longitude}`})
         console.log(position.coords.latitude, position.coords.longitude);
     });
 }
@@ -170,8 +171,8 @@ export default function Map() {
                 {/* <Circle center = {{ lat: latitude, lng: longitude }} radius = {50} /> */}
             </GoogleMap>
             <div style={{display: "flex", justifyContent: "center", marginTop: "-70px"}}>
-                <button style={{zIndex: "1"}} onClick = {()=> getLoc(setLatitude, setLongitude, updateDb)} >Done hiding</button>
-                <button style={{zIndex: "1"}} onClick = {()=> getLoc(setLatitude, setLongitude, updateDb)} >Locate Me</button>
+                <button style={{zIndex: "1"}} onClick = {()=> getLoc(setLatitude, setLongitude, updateDb, data)} >Done hiding</button>
+                <button style={{zIndex: "1"}} onClick = {()=> getLoc(setLatitude, setLongitude, updateDb, data)} >Locate Me</button>
             </div>
         </div>
         ) : <></>
