@@ -32,7 +32,7 @@ jobs:
       - uses: cypress-io/github-action@v4
         with:
           build: npm run build
-          start: npm run em:run
+          start: npm run em:cy:run
           wait-on: http://localhost:5173
 
 #   deploy:
