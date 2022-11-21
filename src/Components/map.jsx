@@ -7,7 +7,7 @@ import {
 import React, { useState } from "react";
 import { useDbUpdate, useDbData } from "../utilities/firebase";
 
-function getLoc(setLat, setLong, updateDb, data) {
+function submitLoc(setLat, setLong, updateDb, data) {
   navigator.geolocation.getCurrentPosition((position) => {
     setLat(position.coords.latitude);
     setLong(position.coords.longitude);
@@ -21,6 +21,25 @@ function getLoc(setLat, setLong, updateDb, data) {
     });
     console.log(position.coords.latitude, position.coords.longitude);
   });
+}
+
+function getLoc(setLat, setLong, updateDb, data) {
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+
+  function showPosition(position) {
+    setLat(position.coords.latitude);
+    setLong(position.coords.longitude);
+    console.log(position.coords.latitude, position.coords.longitude);
+  }
+  // navigator.geolocation.getCurrentPosition((position) => {
+  //   setLat(position.coords.latitude);
+  //   setLong(position.coords.longitude);
+  //   console.log(position.coords.latitude, position.coords.longitude);
+  // });
 }
 
 export default function Map({ roomID, setHomepage, seeker }) {
@@ -39,7 +58,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
   // if (!data) return <h1>No data found</h1>;
 
   const refresh = () => {
-    updateDb2({ hider: null });
+    updateDb2({ hider: "" });
   };
 
   const options = {
@@ -216,20 +235,26 @@ export default function Map({ roomID, setHomepage, seeker }) {
         {!seeker && (
           <button
             style={{ zIndex: "1" }}
-            onClick={() => getLoc(setLatitude, setLongitude, updateDb, data)}
+            onClick={() => submitLoc(setLatitude, setLongitude, updateDb, data)}
           >
             Done hiding
           </button>
         )}
         {/* <button style={{zIndex: "1"}} onClick = {refresh} >Refresh</button> */}
-        {/* <button style={{zIndex: "1"}} onClick = {()=> getLoc(setLatitude, setLongitude, updateDb, data)} >Locate Me</button> */}
+        <button
+          style={{ zIndex: "1" }}
+          onClick={() => getLoc(setLatitude, setLongitude, updateDb, data)}
+        >
+          Locate Me
+        </button>
         <button style={{ zIndex: "1" }} onClick={() => setHomepage(true)}>
           Home
         </button>
       </div>
 
-      <div style={{ zIndex: "1" }}>
+      <div style={{ marginTop: "50px", zIndex: "1" }}>
         <h2 style={{ zIndex: "1" }}>Room ID: {roomID}</h2>
+        <h2>Role: {seeker ? "Seeker" : "Hider"} </h2>
       </div>
     </div>
   ) : (

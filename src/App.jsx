@@ -2,6 +2,7 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import Map from "./Components/map";
 import Homepage from "./Components/Homepage";
+import Navbar from "./Components/Navbar";
 import "./App.css";
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
   const [seeker, setSeeker] = useState(false);
   return (
     <div>
+      <Navbar />
       {isHomepage ? (
         <Homepage
           setRoomID={setRoomID}
