@@ -55,6 +55,13 @@ button {
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 } */
+.map-float {
+  background-color: #1a1a1a;
+}
+
+.map-float > span {
+  color: rgba(255, 255, 255, 0.87)
+}
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -66,5 +73,11 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+  .map-float {
+    background-color: #f9f9f9;
+  }
+  .map-float > span {
+    color: #213547
   }
 }

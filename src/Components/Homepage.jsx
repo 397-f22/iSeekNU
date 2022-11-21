@@ -66,24 +66,24 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
       <div style={{ textAlign: "center", marginTop: "30px" }}>
         <p style={{fontSize: "20px"}}>I want to be a: </p>
         <button
-          style={{ backgroundColor: seeker ?  "#4E2A84" : "grey",  width: "30vw" }}
+          style={{ backgroundColor: seeker ?  "#4E2A84" : "#f9f9f9",  width: "30vw" }}
           type="submit"
           className="btn btn-dark"
           onClick={() => {
             setSeeker(true);
           }}
         >
-          <span>Seeker</span>
+          <span style={{color: seeker ? "white" : "#213547"}}>Seeker</span>
         </button>
         <button
-          style={{ backgroundColor: seeker ? "grey" : "#4E2A84", width: "30vw" }}
+          style={{ backgroundColor: seeker ? "#f9f9f9" : "#4E2A84", width: "30vw" }}
           type="submit"
           className="btn btn-dark"
           onClick={() => {
             setSeeker(false);
           }}
         >
-          <span>Hider</span>
+          <span style={{color: seeker ? "#213547":  "white" }}>Hider</span>
         </button>
       </div>
     </div>

@@ -188,12 +188,12 @@ export default function Map({ roomID, setHomepage, seeker }) {
   return isLoaded ? (
     <div>
       <div style={{ display: "flex", justifyContent: "center"}} >
-        <div style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", backgroundColor: "#1a1a1a", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
+        <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
           <span>Join code: {roomID}</span>
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "center"}} >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", backgroundColor: "#1a1a1a", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
+        <div className="map-float" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
           <span>Your role: {seeker ? "Seeker" : "Hider"}</span>
         </div>
       </div>
