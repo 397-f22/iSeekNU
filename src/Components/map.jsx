@@ -187,51 +187,60 @@ export default function Map({ roomID, setHomepage, seeker }) {
 
   return isLoaded ? (
     <div>
-      <GoogleMap
-        zoom={16}
-        center={{ lat: 42.0565, lng: -87.6753 }}
-        mapContainerClassName="map-container"
-        mapTypeId="terrain"
-        options={options}
-        visible={vis}
-      >
-        <MarkerF
-          icon={{
-            url: "https://cdn-icons-png.flaticon.com/512/5591/5591708.png",
-            scaledSize: new google.maps.Size(70, 70),
-          }}
-          opacity={0.9}
-          position={{ lat: latitude, lng: longitude }}
-        />
-        {data?.map((loc) => {
-          const location = loc.split(",");
-          return (
-            <Circle
-              visible={vis}
-              id={location}
-              center={{
-                lat: parseFloat(location[0]),
-                lng: parseFloat(location[1]),
-              }}
-              radius={80}
-              onClick={() => {
-                setVis(false);
-                console.log(vis);
-              }}
-            />
-          );
-        })}
-        {/* <Circle center = {{ lat: 42.0565, lng: -87.6753 }} radius = {80} /> */}
+      <div style={{ display: "flex", justifyContent: "center"}} >
+        <div style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", backgroundColor: "#1a1a1a", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
+          <span>Join code: {roomID}</span>
+        </div>
+      </div>
+      <div style={{ display: "flex", justifyContent: "center"}} >
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", backgroundColor: "#1a1a1a", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
+          <span>Your role: {seeker ? "Seeker" : "Hider"}</span>
+        </div>
+      </div>
+      <div style={{ marginTop: "-80px" }}>
+        <GoogleMap
+          zoom={16}
+          center={{ lat: 42.0565, lng: -87.6753 }}
+          mapContainerClassName="map-container"
+          mapTypeId="terrain"
+          options={options}
+          visible={vis}
+        >
+          <MarkerF
+            icon={{
+              url: "https://cdn-icons-png.flaticon.com/512/5591/5591708.png",
+              scaledSize: new google.maps.Size(70, 70),
+            }}
+            opacity={0.9}
+            position={{ lat: latitude, lng: longitude }}
+          />
+          {data?.map((loc) => {
+            const location = loc.split(",");
+            return (
+              <Circle
+                visible={vis}
+                id={location}
+                center={{
+                  lat: parseFloat(location[0]),
+                  lng: parseFloat(location[1]),
+                }}
+                radius={80}
+                onClick={() => {
+                  setVis(false);
+                  console.log(vis);
+                }}
+              />
+            );
+          })}
+          {/* <Circle center = {{ lat: 42.0565, lng: -87.6753 }} radius = {80} /> */}
 
-        {/* <Circle center = {{ lat: latitude, lng: longitude }} radius = {50} /> */}
-      </GoogleMap>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "-70px",
-        }}
-      >
+          {/* <Circle center = {{ lat: latitude, lng: longitude }} radius = {50} /> */}
+        </GoogleMap>
+      </div>
+
+      
+
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "-80px" }} >
         {!seeker && (
           <button
             style={{ zIndex: "1" }}
@@ -242,20 +251,20 @@ export default function Map({ roomID, setHomepage, seeker }) {
         )}
         {/* <button style={{zIndex: "1"}} onClick = {refresh} >Refresh</button> */}
         <button
-          style={{ zIndex: "1" }}
+          style={{ zIndex: "1", marginLeft: "15px" }}
           onClick={() => getLoc(setLatitude, setLongitude, updateDb, data)}
         >
           Locate Me
         </button>
-        <button style={{ zIndex: "1" }} onClick={() => setHomepage(true)}>
+        {/* <button style={{ zIndex: "1" }} onClick={() => setHomepage(true)}>
           Home
-        </button>
+        </button> */}
       </div>
 
-      <div style={{ marginTop: "50px", zIndex: "1" }}>
+      {/* <div style={{ marginTop: "50px", zIndex: "1" }}>
         <h2 style={{ zIndex: "1" }}>Room ID: {roomID}</h2>
         <h2>Role: {seeker ? "Seeker" : "Hider"} </h2>
-      </div>
+      </div> */}
     </div>
   ) : (
     <></>

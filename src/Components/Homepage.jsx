@@ -55,7 +55,7 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
 
       <div style={{ textAlign: "center", marginTop: "30px" }}>
         <p style={{fontSize: "20px"}}>Already have a group? </p>
-        <div><input type="text" id="group" style={{height: "30px", width: "60vw", textAlign: "center", fontSize: "20px"}}></input></div>
+        <div><input type="text" id="group" placeholder="# Enter code here" style={{height: "30px", width: "60vw", textAlign: "center", fontSize: "20px"}}></input></div>
         <div style={{marginTop: "20px"}}>
           <button type="submit" className="btn btn-dark" onClick={enterGroup}>
             <span>Join Group</span>

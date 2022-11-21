@@ -11,7 +11,7 @@ function App() {
   const [seeker, setSeeker] = useState(false);
   return (
     <div>
-      <Navbar />
+      <Navbar isHomepage={isHomepage} setHomepage={setHomepage} />
       {isHomepage ? (
         <Homepage
           setRoomID={setRoomID}
