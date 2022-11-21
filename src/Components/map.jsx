@@ -2,26 +2,37 @@ import { GoogleMap, Circle, MarkerF, useJsApiLoader } from '@react-google-maps/a
 import React, { useState } from 'react';
 import { useDbUpdate, useDbData } from '../utilities/firebase';
 
+
 function getLoc(setLat, setLong, updateDb, data) {
     navigator.geolocation.getCurrentPosition((position) => {
         setLat(position.coords.latitude);
         setLong(position.coords.longitude);
-        const l = Object.entries(data).length+1;
+        let l = 0;
+        // if(!data){
+            l = Object.entries(data).length+1;
+        // }
+        
         updateDb({[l] : `${position.coords.latitude},${position.coords.longitude}`})
         console.log(position.coords.latitude, position.coords.longitude);
     });
 }
 
-export default function Map() {
+export default function Map({roomID,setHomepage}) {
     const [longitude, setLongitude] = useState(-87.6753);
     const [latitude, setLatitude] = useState(42.0565);
+    // Get position of user
+    const [updateDb, result] = useDbUpdate(`user/${roomID}/hider`)
+    const [data, error] = useDbData(`user/${roomID}/hider`)
 
-    const [updateDb, result] = useDbUpdate("user/8888/hider")
-    const [data, error] = useDbData("user/8888/hider")
+    const [updateDb2, result2] = useDbUpdate(`user/${roomID}/`)
+
+    const [vis, setVis] = useState(true);
     
     // if (error) return <h1>Error loading data: {error.toString()}</h1>;
     // if (data === undefined) return <h1>Loading data...</h1>;
     // if (!data) return <h1>No data found</h1>;
+
+    const refresh = () => {updateDb2({"hider":null})}
 
     const options = {
         styles: [
@@ -155,6 +166,7 @@ export default function Map() {
                 mapContainerClassName='map-container'
                 mapTypeId= 'terrain'
                 options={options}
+                visible={vis}
             >
                 <MarkerF icon = {{ url: "https://cdn-icons-png.flaticon.com/512/5591/5591708.png",
                         scaledSize:  new google.maps.Size(70,70) }}
@@ -163,7 +175,7 @@ export default function Map() {
                 {data?.map(loc => 
                     {   
                         const location = loc.split(',');
-                        return <Circle center = {{ lat: parseFloat(location[0]), lng: parseFloat(location[1]) }} radius = {80} />
+                        return <Circle visible={vis} id={location} center = {{ lat: parseFloat(location[0]), lng: parseFloat(location[1]) }} radius = {80} onClick={() =>{ setVis(false);console.log(vis)}}/>
                     }
                 )}
                 {/* <Circle center = {{ lat: 42.0565, lng: -87.6753 }} radius = {80} /> */}
@@ -172,11 +184,17 @@ export default function Map() {
             </GoogleMap>
             <div style={{display: "flex", justifyContent: "center", marginTop: "-70px"}}>
                 <button style={{zIndex: "1"}} onClick = {()=> getLoc(setLatitude, setLongitude, updateDb, data)} >Done hiding</button>
-                <button style={{zIndex: "1"}} onClick = {()=> getLoc(setLatitude, setLongitude, updateDb, data)} >Locate Me</button>
+                {/* <button style={{zIndex: "1"}} onClick = {refresh} >Refresh</button> */}
+                {/* <button style={{zIndex: "1"}} onClick = {()=> getLoc(setLatitude, setLongitude, updateDb, data)} >Locate Me</button> */}
+                <button style={{zIndex: "1"}} onClick = {()=> setHomepage(true)} >Home</button>
+            </div>
+            
+            <div style={{zIndex: "1"}}>
+                <h2 style={{zIndex: "1"}}>Room ID: {roomID}</h2>
             </div>
         </div>
         ) : <></>
-        //42.0451° N, 87.6877°W
+        //42.0451° N, 87.6877°W 
 }
 
 
