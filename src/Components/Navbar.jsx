@@ -3,7 +3,7 @@ const Navbar = () => {
     <div
       style={{
         width: "100vw",
-        height: "55px",
+        height: "65px",
         backgroundColor: "#4E2A84",
         display: "flex",
         justifyContent: "center",
