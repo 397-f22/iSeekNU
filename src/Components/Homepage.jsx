@@ -28,7 +28,7 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
     setRoomID(random);
     submitGroup({
       [random]: {
-        ["hider"]: { 1: "42.0531526,-87.678285" },
+        ["hider"]: { 1: "0,0" },
       },
     });
     setHomepage(false);
