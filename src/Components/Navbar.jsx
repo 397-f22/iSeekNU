@@ -13,6 +13,7 @@ const Navbar = () => {
         style={{
           color: "white",
           alignSelf: "center",
+          fontFamily: "Poppins",
           fontSize: "25px",
           fontWeight: "bolder",
         }}
