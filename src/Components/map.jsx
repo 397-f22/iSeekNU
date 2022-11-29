@@ -5,21 +5,25 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 import React, { useState } from "react";
-import { useDbUpdate, useDbData } from "../utilities/firebase";
+import { useDbUpdate, useDbData, useDbDelete } from "../utilities/firebase";
 
 function submitLoc(setLat, setLong, updateDb, data) {
   navigator.geolocation.getCurrentPosition((position) => {
     setLat(position.coords.latitude);
     setLong(position.coords.longitude);
+    let latStr = position.coords.latitude.toString().replace(".", "").replace("-","");
+    let lonStr = position.coords.longitude.toString().replace(".", "").replace("-","");
     let l = 0;
     if (data) {
-      l = Object.entries(data).length + 1;
+      l = `${latStr}${lonStr}`;
     }
+    
 
     updateDb({
       [l]: `${position.coords.latitude},${position.coords.longitude}`,
     });
     console.log(position.coords.latitude, position.coords.longitude);
+    console.log(data);
   });
 }
 
@@ -183,10 +187,12 @@ export default function Map({ roomID, setHomepage, seeker }) {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyDeXZKR-iOaI6CverJZt4pcxKD4p-oJydA",
+    // AIzaSyDeXZKR-iOaI6CverJZt4pcxKD4p-oJydA
   });
 
   return isLoaded ? (
     <div>
+
       <div style={{ display: "flex", justifyContent: "center"}} >
         <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
           <span>Join code: {roomID}</span>
@@ -214,11 +220,12 @@ export default function Map({ roomID, setHomepage, seeker }) {
             opacity={0.9}
             position={{ lat: latitude, lng: longitude }}
           />
-          {data?.map((loc) => {
-            const location = loc.split(",");
+          {data && Object.entries(data).map((loc) => {
+            // console.log(loc)
+            const location = loc[1].split(",");
             return (
               <Circle
-                visible={vis}
+                visible={true}
                 id={location}
                 center={{
                   lat: parseFloat(location[0]),
@@ -226,8 +233,9 @@ export default function Map({ roomID, setHomepage, seeker }) {
                 }}
                 radius={80}
                 onClick={() => {
-                  setVis(false);
-                  console.log(vis);
+                  // Remove these coordinates from the firebase, this will result in the circle also dissapearing from the map.
+                  useDbDelete(roomID, loc[0]);
+                  console.log(location[1]);
                 }}
               />
             );

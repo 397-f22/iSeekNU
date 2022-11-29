@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
-import { getDatabase, onValue, ref, update } from 'firebase/database';
+import { getDatabase, onValue, update, ref, remove } from 'firebase/database';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBRRmxzqO-vWcUfg815V52XTZVCiyySFq8",
@@ -47,4 +47,10 @@ export const useDbUpdate = (path) => {
   }, [database, path]);
 
   return [updateData, result];
+};
+
+
+export const useDbDelete = (roomID, m_key) => {
+  const taskRef = ref(database, `/user/${roomID}/hider/${m_key}`);
+  remove(taskRef);
 };
