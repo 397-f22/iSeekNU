@@ -11,7 +11,9 @@
     "em:start": "firebase emulators:start --import=./saved-data --export-on-exit",
     "em:exec": "firebase emulators:exec --import=./saved-data 'npm start'",
     "em:execui": "firebase emulators:exec --ui --import=./saved-data 'npm start'",
-    "em:cy:open": "start-server-and-test em:exec http://127.0.0.1:3000 cy:open"
+    "em:cy:open": "start-server-and-test em:exec http://127.0.0.1:3000 cy:open",
+    "test": "vitest --ui",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@googlemaps/react-wrapper": "^1.1.35",
@@ -25,7 +27,10 @@
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@vitejs/plugin-react": "^2.2.0",
+    "@vitest/coverage-c8": "^0.25.3",
+    "@vitest/ui": "^0.25.3",
     "cypress": "^11.1.0",
-    "vite": "^3.2.3"
+    "vite": "^3.2.3",
+    "vitest": "^0.25.3"
   }
 }
