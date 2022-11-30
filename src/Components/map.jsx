@@ -23,7 +23,7 @@ function submitLoc(setLat, setLong, updateDb, data) {
       [l]: `${position.coords.latitude},${position.coords.longitude}`,
     });
     console.log(position.coords.latitude, position.coords.longitude);
-    console.log(data);
+    // console.log(data);
   });
 }
 
@@ -55,7 +55,9 @@ export default function Map({ roomID, setHomepage, seeker }) {
 
   const [updateDb2, result2] = useDbUpdate(`user/${roomID}/`);
 
-  const [vis, setVis] = useState(true);
+  const [hidden, sethidden] = useState(false);
+
+  const [noHider, setNoHider] = useState(true);
 
   // if (error) return <h1>Error loading data: {error.toString()}</h1>;
   // if (data === undefined) return <h1>Loading data...</h1>;
@@ -186,93 +188,103 @@ export default function Map({ roomID, setHomepage, seeker }) {
   // Loads the map using API KEY
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyDeXZKR-iOaI6CverJZt4pcxKD4p-oJydA",
+    googleMapsApiKey:"AIzaSyDeXZKR-iOaI6CverJZt4pcxKD4p-oJydA",
     // AIzaSyDeXZKR-iOaI6CverJZt4pcxKD4p-oJydA
   });
 
-  return isLoaded ? (
+  return (isLoaded && data) ? (
     <div>
-
-      <div style={{ display: "flex", justifyContent: "center"}} >
-        <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
-          <span>Join code: {roomID}</span>
+      { !(Object.keys(data).length > 1 || noHider) && 
+        <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
+          <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
+            <div style={{backgroundColor: "white", padding: "50px", borderRadius: "15px", display: "flex", alignContent: "center", marginTop: "-65px"}}>
+              {seeker ? <span style={{fontSize: "70px"}}>Victory!</span>
+                      : <span style={{fontSize: "70px"}}>You Lost!</span>}
+            </div>
+            <br></br>
+            <div style={{backgroundColor: "white", padding: "20px", borderRadius: "15px", display: "flex", alignContent: "center"}}>
+              {seeker ? <span style={{fontSize: "25px"}}>You found all of the hiders</span>
+                      : <span style={{fontSize: "25px"}}>Find a better spot next time</span>}
+            </div>
+          </div>
         </div>
-      </div>
-      <div style={{ display: "flex", justifyContent: "center"}} >
-        <div className="map-float" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
-          <span>Your role: {seeker ? "Seeker" : "Hider"}</span>
+      }
+      <div>
+        {console.log(data)}
+        <div style={{ display: "flex", justifyContent: "center"}} >
+          <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
+            <span>Join code: {roomID}</span>
+          </div>
         </div>
-      </div>
-      <div style={{ marginTop: "-80px" }}>
-        <GoogleMap
-          zoom={16}
-          center={{ lat: 42.0565, lng: -87.6753 }}
-          mapContainerClassName="map-container"
-          mapTypeId="terrain"
-          options={options}
-          visible={vis}
-        >
-          <MarkerF
-            icon={{
-              url: "https://cdn-icons-png.flaticon.com/512/5591/5591708.png",
-              scaledSize: new google.maps.Size(70, 70),
-            }}
-            opacity={0.9}
-            position={{ lat: latitude, lng: longitude }}
-          />
-          {data && Object.entries(data).map((loc) => {
-            // console.log(loc)
-            const location = loc[1].split(",");
-            return (
-              <Circle
-                visible={true}
-                id={location}
-                center={{
-                  lat: parseFloat(location[0]),
-                  lng: parseFloat(location[1]),
-                }}
-                radius={80}
-                onClick={() => {
-                  // Remove these coordinates from the firebase, this will result in the circle also dissapearing from the map.
-                  useDbDelete(roomID, loc[0]);
-                  console.log(location[1]);
-                }}
-              />
-            );
-          })}
-          {/* <Circle center = {{ lat: 42.0565, lng: -87.6753 }} radius = {80} /> */}
-
-          {/* <Circle center = {{ lat: latitude, lng: longitude }} radius = {50} /> */}
-        </GoogleMap>
-      </div>
-
-      
-
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "-80px" }} >
-        {!seeker && (
-          <button
-            style={{ zIndex: "1" }}
-            onClick={() => submitLoc(setLatitude, setLongitude, updateDb, data)}
+        <div style={{ display: "flex", justifyContent: "center"}} >
+          <div className="map-float" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
+            <span>Your role: {seeker ? "Seeker" : "Hider"}</span>
+          </div>
+        </div>
+        <div style={{ marginTop: "-80px" }}>
+          <GoogleMap
+            zoom={16}
+            center={{ lat: 42.0565, lng: -87.6753 }}
+            mapContainerClassName="map-container"
+            mapTypeId="terrain"
+            options={options}
           >
-            Done hiding
-          </button>
-        )}
-        {/* <button style={{zIndex: "1"}} onClick = {refresh} >Refresh</button> */}
-        <button
-          style={{ zIndex: "1", marginLeft: "15px" }}
-          onClick={() => getLoc(setLatitude, setLongitude, updateDb, data)}
-        >
-          Locate Me
-        </button>
-        {/* <button style={{ zIndex: "1" }} onClick={() => setHomepage(true)}>
-          Home
-        </button> */}
-      </div>
+            <MarkerF
+              icon={{
+                url: "https://cdn-icons-png.flaticon.com/512/5591/5591708.png",
+                scaledSize: new google.maps.Size(70, 70),
+              }}
+              opacity={0.9}
+              position={{ lat: latitude, lng: longitude }}
+            />
+            {data && Object.entries(data).map((loc) => {
+              console.log(loc)
+              if (loc[0] != 0 && loc[0] != 1 && noHider) {
+                setNoHider(false);
+              }
+              const location = loc[1].split(",");
+              return (
+                <Circle
+                  id={location}
+                  center={{
+                    lat: parseFloat(location[0]),
+                    lng: parseFloat(location[1]),
+                  }}
+                  radius={80}
+                  onClick={() => {
+                    // Remove these coordinates from the firebase, this will result in the circle also dissapearing from the map.
+                    if (seeker) { // Only allow seeker to delete
+                      useDbDelete(roomID, loc[0]);
+                    }
+                  }}
+                />
+              );
+            })}
+          </GoogleMap>
+        </div>
 
-      {/* <div style={{ marginTop: "50px", zIndex: "1" }}>
-        <h2 style={{ zIndex: "1" }}>Room ID: {roomID}</h2>
-        <h2>Role: {seeker ? "Seeker" : "Hider"} </h2>
-      </div> */}
+        
+
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "-80px" }} >
+          {!seeker && (
+            <button
+              style={{ zIndex: "1" }}
+              disabled={hidden}
+              onClick={() => { submitLoc(setLatitude, setLongitude, updateDb, data); 
+                              sethidden(true); }}
+            >
+              Done hiding
+            </button>
+          )}
+          {/* <button style={{zIndex: "1"}} onClick = {refresh} >Refresh</button> */}
+          <button
+            style={{ zIndex: "1", marginLeft: "15px" }}
+            onClick={() => getLoc(setLatitude, setLongitude, updateDb, data)}
+          >
+            Locate Me
+          </button>
+        </div>
+      </div>
     </div>
   ) : (
     <></>
