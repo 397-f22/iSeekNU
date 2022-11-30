@@ -2,6 +2,7 @@ import { useDbUpdate, useDbData } from "../utilities/firebase";
 import React, { useState } from "react";
 import RandomNum from "./RandomNum";
 import { HowToPlayPopup } from "./HowToPlayPopUp";
+import { InvalidCodePopUp } from "./InvalidCodePopUp";
 
 
 const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
@@ -18,8 +19,12 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
         // console.log(group);
         setRoomID(group);
         setHomepage(false);
+        return true
+      }else{
+        setOpenInvalid(true)
       }
     }
+    return false;
   };
 
   const createGroup = () => {
@@ -37,6 +42,7 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
   // const random = getRandomNum(data)
 
   const [open, setOpen] = useState(false);
+  const [openInvalid, setOpenInvalid] = useState(false);
 
 
   return (
@@ -56,6 +62,7 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
         <p style={{fontSize: "20px"}}>Already have a group? </p>
         <div><input type="text" id="group" placeholder="# Enter code here" style={{height: "30px", width: "60vw", textAlign: "center", fontSize: "20px", borderRadius: "10px", border: "0.5px solid black"}}></input></div>
         <div style={{marginTop: "20px"}}>
+        {openInvalid ? <InvalidCodePopUp closePopup={() => setOpenInvalid(false)} /> : null}
           <button type="submit" className="btn btn-dark" onClick={enterGroup}>
             <span>Join Group</span>
           </button>
@@ -90,7 +97,6 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
         {open ? <HowToPlayPopup closePopup={() => setOpen(false)} /> : null}
         </div>
         <br></br>
-
       </div> 
     </div>
   );
