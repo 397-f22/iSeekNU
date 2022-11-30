@@ -60,7 +60,7 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
 
       <div style={{ textAlign: "center", marginTop: "30px" }}>
         <p style={{fontSize: "20px"}}>Already have a group? </p>
-        <div><input type="text" id="group" placeholder="# Enter code here" style={{height: "30px", width: "60vw", textAlign: "center", fontSize: "20px", borderRadius: "10px", border: "0.5px solid black"}}></input></div>
+        <div><input type="text" id="group" placeholder="Enter code here" style={{height: "30px", width: "60vw", textAlign: "center", fontSize: "20px", borderRadius: "10px", border: "0.5px solid black"}}></input></div>
         <div style={{marginTop: "20px"}}>
         {openInvalid ? <InvalidCodePopUp closePopup={() => setOpenInvalid(false)} /> : null}
           <button type="submit" className="btn btn-dark" onClick={enterGroup}>
@@ -70,7 +70,7 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
       </div>
 
       <div style={{ textAlign: "center", marginTop: "30px" }}>
-        <p style={{fontSize: "20px"}}>I want to be a: </p>
+        <p style={{fontSize: "20px"}}>I am a {seeker ? "Seeker" : "Hider"}</p>
         <button
           style={{ backgroundColor: seeker ?  "#4E2A84" : "#f9f9f9",  width: "30vw" }}
           type="submit"
