@@ -4,6 +4,8 @@ import RandomNum from "./RandomNum";
 import { HowToPlayPopup } from "./HowToPlayPopUp";
 import { InvalidCodePopUp } from "./InvalidCodePopUp";
 
+const timerMinutes = .25;
+
 
 const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
   const [submitGroup, result] = useDbUpdate("user/");
@@ -48,7 +50,7 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
     submitGroup({
       [random]: {
         ["hider"]: { "1": "0,0" },
-        ["endTime"]: add_minutes(new Date(), 20)
+        ["endTime"]: add_minutes(new Date(), timerMinutes)
       },
     });
     setHomepage(false);

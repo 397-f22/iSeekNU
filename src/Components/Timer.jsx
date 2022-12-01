@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const CountDownTimer = ({hoursMinSecs}) => {
 
@@ -28,7 +28,7 @@ const CountDownTimer = ({hoursMinSecs}) => {
     const tick = () => {
    
         if (hrs === 0 && mins === 0 && secs === 0) 
-            reset()
+            setTimerExpired();
         else if (mins === 0 && secs === 0) {
             setTime([hrs - 1, 59, 59]);
         } else if (secs === 0) {
@@ -47,14 +47,26 @@ const CountDownTimer = ({hoursMinSecs}) => {
         return () => clearInterval(timerId);
     });
 
+
+    if (dateFuture < dateNow){
+        return (
+            <div>
+                <h3>Time is Up!</h3> 
+            </div>
+        );
+
+    }else{
     
     return (
         <div>
-            <p>Time Left: {`${hours.toString().padStart(2, '0')}:${minutes
+            <h4>Time Left: {`${hours.toString().padStart(2, '0')}:${minutes
             .toString()
-            .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}</p> 
+            .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}</h4> 
         </div>
     );
+            }
 }
 
 export default CountDownTimer;
+export const timerExpired = false;
+export const setTimerExpired = () => {timerExpired = true;} 

@@ -7,6 +7,8 @@ import {
 import React, { useState } from "react";
 import { useDbUpdate, useDbData, useDbDelete, useDbRead } from "../utilities/firebase";
 import CountDownTimer from './Timer';
+import timerExpired from './Timer';
+
 
 
 function submitLoc(setLat, setLong, updateDb, data) {
@@ -48,8 +50,8 @@ function getLoc(setLat, setLong, updateDb, data) {
   // });
 }
 
-export default function Map({ roomID, setHomepage, seeker }) {
 
+export default function Map({ roomID, setHomepage, seeker }) {
   const [longitude, setLongitude] = useState(-87.6753);
   const [latitude, setLatitude] = useState(42.0565);
   // Get position of user
@@ -195,6 +197,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
   });
 
   return (isLoaded && data) ? (
+
     <div>
       { !(Object.keys(data).length > 1 || noHider) && 
         <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
@@ -211,8 +214,25 @@ export default function Map({ roomID, setHomepage, seeker }) {
           </div>
         </div>
       }
+      
+      { (timerExpired) && 
+        <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
+          <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
+            <div style={{backgroundColor: "Black", padding: "50px", borderRadius: "15px", display: "flex", alignContent: "center", marginTop: "-65px"}}>
+              {seeker ? <span style={{fontSize: "70px"}}>Time is Up..</span>
+                      : <span style={{fontSize: "70px"}}>Victory!</span>}
+            </div>
+            <br></br>
+            <div style={{backgroundColor: "Black", padding: "20px", borderRadius: "15px", display: "flex", alignContent: "center"}}>
+              {seeker ? <span style={{fontSize: "25px"}}>You failed to find all of the hiders within the given time.</span>
+                      : <span style={{fontSize: "25px"}}>Congratulations, you stayed hidden for the whole game!</span>}
+            </div>
+          </div>
+        </div>
+      }
+
       <div>
-        {console.log(data)}
+       {console.log(data)}
         <div style={{ display: "flex", justifyContent: "center"}} >
           <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
           <CountDownTimer hoursMinSecs={endTime}/>
