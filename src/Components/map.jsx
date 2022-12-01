@@ -192,7 +192,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
   // Loads the map using API KEY
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey:"AIzaSyDeXZKR-iOaI6CverJZt4pcxKD4p-oJydA",
+    googleMapsApiKey:"AIzaSyC9aaZI6eMd_4ivQXZQexs2rJy4NJ7YUv4",
     // AIzaSyDeXZKR-iOaI6CverJZt4pcxKD4p-oJydA
   });
 
@@ -259,7 +259,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
         </div>
 
         
-        <div style={{ marginTop: "-80px" }}>
+        <div style={{ marginTop: "-120px" }}>
           <GoogleMap
             zoom={16}
             center={{ lat: 42.0565, lng: -87.6753 }}
