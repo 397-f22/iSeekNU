@@ -61,7 +61,8 @@ export default function Map({ roomID, setHomepage, seeker }) {
   const [hidden, sethidden] = useState(false);
   const [noHider, setNoHider] = useState(true);
 
-  const [endTime, etR] = useDbData(`user/${roomID}/endTime`);
+  
+  const [msg, etR] = useDbData(`user/${roomID}`);
 
   // if (error) return <h1>Error loading data: {error.toString()}</h1>;
   // if (data === undefined) return <h1>Loading data...</h1>;
@@ -69,6 +70,14 @@ export default function Map({ roomID, setHomepage, seeker }) {
 
   const refresh = () => {
     updateDb2({ hider: "" });
+  };
+  const startTime = () => {
+    updateDb2({"endTime": new Date(Date.now()+20*60000),
+                "state": 1})
+  }
+  const restart = () => {
+    updateDb2({ "hider": {"1": "0,0"}, ["state"]: 0 });
+    window.location.href = `/${roomID}/${seeker?"seeker":"hider"}`;
   };
 
   const options = {
@@ -198,50 +207,51 @@ export default function Map({ roomID, setHomepage, seeker }) {
 
 
  function GameOver (){
-  var dateFuture = new Date(endTime);
+  var dateFuture = new Date(msg["endTime"]);
   var dateNow = new Date();
 
   if (dateNow >= dateFuture || !(Object.keys(data).length > 1 || noHider) ) {
 
     return (
       <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
-      <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
-        <div style={{backgroundColor: "black", "opacity": 0.8, padding: "45px", borderRadius: "15px", display: "flex", alignContent: "center", marginTop: "-65px"}}>
-        {dateNow >= dateFuture ? 
-          seeker ? <span style={{fontSize: "70px"}}>Time is Up..</span> : <span style={{fontSize: "70px"}}>Victory!</span> 
-          : 
-          seeker ? <span style={{fontSize: "70px"}}>Victory!</span>: <span style={{fontSize: "70px"}}>You Lost!</span>}
+        <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
+          <div style={{backgroundColor: "black", "opacity": 0.8, padding: "45px", borderRadius: "15px", display: "flex", alignContent: "center", marginTop: "-65px"}}>
+          {dateNow >= dateFuture ? 
+            seeker ? <span style={{fontSize: "70px"}}>Time is Up..</span> : <span style={{fontSize: "70px"}}>Victory!</span> 
+            : 
+            seeker ? <span style={{fontSize: "70px"}}>Victory!</span>: <span style={{fontSize: "70px"}}>You Lost!</span>}
+          </div>
+          <br></br>
+          <div style={{backgroundColor: "black", "opacity": 0.8, padding: "15px", borderRadius: "15px", display: "flex", alignContent: "center"}}>
+          {dateNow >= dateFuture ? 
+            seeker ? <span style={{fontSize: "25px"}}>You failed to find all of the hiders within the given time. Please note that clicking on go home will disband the group.</span> : <span style={{fontSize: "25px"}}>Congratulations, you stayed hidden for the whole game!</span>
+            : 
+            seeker ? <span style={{fontSize: "25px"}}>You found all of the hiders. Please note that clicking on go home will disband the group.</span> : <span style={{fontSize: "25px"}}>Find a better spot next time</span>}
+          
+          </div>
+          <br></br>
+          <br></br>
+          {<button style={{zIndex: "1"}} onClick = {restart} >RESTART</button>}
+          {/* {seeker ? <button style={{ zIndex: "1" }} disabled={hidden} onClick={() => { useDbDeleteRoom(roomID); setHomepage(true)}}>Go Home</button> : <></>} */}
         </div>
-        <br></br>
-        <div style={{backgroundColor: "black", "opacity": 0.8, padding: "15px", borderRadius: "15px", display: "flex", alignContent: "center"}}>
-        {dateNow >= dateFuture ? 
-          seeker ? <span style={{fontSize: "25px"}}>You failed to find all of the hiders within the given time. Please note that clicking on go home will disband the group.</span> : <span style={{fontSize: "25px"}}>Congratulations, you stayed hidden for the whole game!</span>
-          : 
-          seeker ? <span style={{fontSize: "25px"}}>You found all of the hiders. Please note that clicking on go home will disband the group.</span> : <span style={{fontSize: "25px"}}>Find a better spot next time</span>}
-        
-        </div>
-        <br></br>
-        <br></br>
-        {seeker ? <button style={{ zIndex: "1" }} disabled={hidden} onClick={() => { useDbDeleteRoom(roomID); setHomepage(true)}}>Go Home</button> : <></>}
-        </div>
-    </div>
-    );
-      }
+      </div>
+    )
+  }
 
-      return;
+  
 }
 
   return (isLoaded && data) ? (
 
     <div>      
-        {GameOver()};
+        {msg["state"]? GameOver():""}
       <div>
 
        {console.log(data)}
 
         <div style={{ display: "flex", justifyContent: "center"}} >
           <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
-          <CountDownTimer hoursMinSecs={endTime}/>
+          <CountDownTimer hoursMinSecs={msg["endTime"]} state={msg["state"]}/>
           </div>
         </div>
 
@@ -311,15 +321,16 @@ export default function Map({ roomID, setHomepage, seeker }) {
               onClick={() => { submitLoc(setLatitude, setLongitude, updateDb, data); 
                               sethidden(true); }}
             >
-              Done hiding
+              DONE HIDING
             </button>
           )}
+          {seeker && <button style={{zIndex: "1"}} onClick = {startTime} >START GAME</button>}
           {/* <button style={{zIndex: "1"}} onClick = {refresh} >Refresh</button> */}
           <button
             style={{ zIndex: "1", marginLeft: "15px" }}
             onClick={() => getLoc(setLatitude, setLongitude, updateDb, data)}
           >
-            Locate Me
+            LOCATE ME
           </button>
         </div>
       </div>

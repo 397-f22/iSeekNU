@@ -48,7 +48,8 @@ const Homepage = () => {
     submitGroup({
       [random]: {
         ["hider"]: { "1": "0,0" },
-        ["endTime"]: add_minutes(new Date(), timerMinutes)
+        ["endTime"]: add_minutes(new Date(), timerMinutes),
+        ["state"]: 0
       },
     });
     window.location.href = `/${random}/${seeker?"seeker":"hider"}`;

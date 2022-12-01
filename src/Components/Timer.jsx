@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CountDownTimer = ({hoursMinSecs}) => {
+const CountDownTimer = ({hoursMinSecs, state}) => {
 
     //Future Date
     var dateFuture = new Date(hoursMinSecs);
@@ -48,16 +48,19 @@ const CountDownTimer = ({hoursMinSecs}) => {
         return () => clearInterval(timerId);
     });
 
-    if (dateNow >= dateFuture){
-        return (<div><h3>Time is Up!</h3> </div>);
+    // if (dateNow >= dateFuture){
+    //     return (<div><h3>Time is Up!</h3> </div>);
+    // }
+    if (state == 0){
+        return (<div><h4>Time Left: 00:20:00</h4> </div>);
     }
-
     return (
         <div>
             <h4>Time Left: {`${hours.toString().padStart(2, '0')}:${minutes
             .toString()
             .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}</h4> 
         </div>
+        
     );
 }
 
