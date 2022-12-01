@@ -24,7 +24,7 @@ function submitLoc(setLat, setLong, updateDb, data) {
     updateDb({
       [l]: `${position.coords.latitude},${position.coords.longitude}`,
     });
-    console.log(position.coords.latitude, position.coords.longitude);
+    // console.log(position.coords.latitude, position.coords.longitude);
     // console.log(data);
   });
 }
@@ -39,7 +39,7 @@ function getLoc(setLat, setLong, updateDb, data) {
   function showPosition(position) {
     setLat(position.coords.latitude);
     setLong(position.coords.longitude);
-    console.log(position.coords.latitude, position.coords.longitude);
+    // console.log(position.coords.latitude, position.coords.longitude);
   }
   // navigator.geolocation.getCurrentPosition((position) => {
   //   setLat(position.coords.latitude);
@@ -72,6 +72,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
     updateDb2({ hider: "" });
   };
   const startTime = () => {
+    if(msg["state"])
     updateDb2({"endTime": new Date(Date.now()+20*60000),
                 "state": 1})
   }
@@ -247,7 +248,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
         {msg["state"]? GameOver():""}
       <div>
 
-       {console.log(data)}
+       {/* {console.log(data)} */}
 
         <div style={{ display: "flex", justifyContent: "center"}} >
           <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
@@ -286,7 +287,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
               position={{ lat: latitude, lng: longitude }}
             />
             {data && Object.entries(data).map((loc) => {
-              console.log(loc)
+              // console.log(loc)
               if (loc[0] != 0 && loc[0] != 1 && noHider) {
                 setNoHider(false);
               }
