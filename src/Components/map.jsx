@@ -72,7 +72,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
     updateDb2({ hider: "" });
   };
   const startTime = () => {
-    if(msg["state"])
+    if(!msg["state"])
     updateDb2({"endTime": new Date(Date.now()+20*60000),
                 "state": 1})
   }
