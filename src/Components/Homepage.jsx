@@ -4,7 +4,7 @@ import RandomNum from "./RandomNum";
 import { HowToPlayPopup } from "./HowToPlayPopUp";
 import { InvalidCodePopUp } from "./InvalidCodePopUp";
 
-const timerMinutes = .25;
+const timerMinutes = 20;
 
 
 const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {

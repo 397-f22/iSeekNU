@@ -59,3 +59,8 @@ export const useDbDelete = (roomID, m_key) => {
   const taskRef = ref(database, `/user/${roomID}/hider/${m_key}`);
   remove(taskRef);
 };
+
+export const useDbDeleteRoom = (roomID) => {
+  const taskRef = ref(database, `/user/${roomID}`);
+  remove(taskRef);
+};
