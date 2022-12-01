@@ -48,7 +48,7 @@ function getLoc(setLat, setLong, updateDb, data) {
   // });
 }
 
-export default function Map({ roomID, setHomepage, seeker }) {
+export default function Map({ roomID, seeker }) {
 
   const [longitude, setLongitude] = useState(-87.6753);
   const [latitude, setLatitude] = useState(42.0565);
@@ -59,7 +59,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
   const [hidden, sethidden] = useState(false);
   const [noHider, setNoHider] = useState(true);
 
-  const [endTime, etR] = useDbData(`user/${roomID}/endTime`);
+  const [msg, errorMsg] = useDbData(`user/${roomID}`);
 
   // if (error) return <h1>Error loading data: {error.toString()}</h1>;
   // if (data === undefined) return <h1>Loading data...</h1>;
@@ -68,6 +68,9 @@ export default function Map({ roomID, setHomepage, seeker }) {
   const refresh = () => {
     updateDb2({ hider: "" });
   };
+  const startTime = () => {
+    updateDb2({"endTime": new Date(Date.now()+20*60000)})
+  }
 
   const options = {
     styles: [
@@ -190,8 +193,9 @@ export default function Map({ roomID, setHomepage, seeker }) {
   // Loads the map using API KEY
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey:"AIzaSyDeXZKR-iOaI6CverJZt4pcxKD4p-oJydA",
+    googleMapsApiKey:"AIzaSyC9aaZI6eMd_4ivQXZQexs2rJy4NJ7YUv4",
     // AIzaSyDeXZKR-iOaI6CverJZt4pcxKD4p-oJydA
+    
   });
 
   return (isLoaded && data) ? (
@@ -213,11 +217,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
       }
       <div>
         {console.log(data)}
-        <div style={{ display: "flex", justifyContent: "center"}} >
-          <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
-          <CountDownTimer hoursMinSecs={endTime}/>
-          </div>
-        </div>
+    
         <div style={{ display: "flex", justifyContent: "center"}} >
           <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
             <span>Join code: {roomID}</span>
@@ -228,6 +228,12 @@ export default function Map({ roomID, setHomepage, seeker }) {
             <span>Your role: {seeker ? "Seeker" : "Hider"}</span>
           </div>
         </div>
+        {startTime && 
+        <div style={{ display: "flex", justifyContent: "center"}} >
+          <div className="map-float" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
+            <CountDownTimer style={{ zIndex: "1", marginLeft: "15px" }} hoursMinSecs={msg["endTime"]}/>
+          </div>
+        </div>}
         <div style={{ marginTop: "-80px" }}>
           <GoogleMap
             zoom={16}
@@ -283,6 +289,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
               Done hiding
             </button>
           )}
+          {seeker && <button style={{zIndex: "1"}} onClick = {startTime} >start</button>}
           {/* <button style={{zIndex: "1"}} onClick = {refresh} >Refresh</button> */}
           <button
             style={{ zIndex: "1", marginLeft: "15px" }}
@@ -290,6 +297,10 @@ export default function Map({ roomID, setHomepage, seeker }) {
           >
             Locate Me
           </button>
+          
+          
+          
+          
         </div>
       </div>
     </div>

@@ -5,7 +5,8 @@ import { HowToPlayPopup } from "./HowToPlayPopUp";
 import { InvalidCodePopUp } from "./InvalidCodePopUp";
 
 
-const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
+const Homepage = () => {
+  const [seeker, setSeeker] = useState(false);
   const [submitGroup, result] = useDbUpdate("user/");
   const [data, error] = useDbData("user/");
 
@@ -28,8 +29,8 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
       // console.log(Object.keys(data));
       if (group && Object.keys(data).includes(group)) {
         // console.log(group);
-        setRoomID(group);
-        setHomepage(false);
+        // setRoomID(group);
+        window.location.href = `/${group}/${seeker?"seeker":"hider"}`;
         return true
       }else{
         setOpenInvalid(true)
@@ -44,14 +45,14 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
 
   const createGroup = () => {
     let random = document.getElementById("randomNum").innerText;
-    setRoomID(random);
+    // setRoomID(random);
     submitGroup({
       [random]: {
         ["hider"]: { "1": "0,0" },
         ["endTime"]: add_minutes(new Date(), 20)
       },
     });
-    setHomepage(false);
+    window.location.href = `/${random}/${seeker?"seeker":"hider"}`;
   };
   
   const random = <RandomNum data={data}/>
