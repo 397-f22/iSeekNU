@@ -215,9 +215,25 @@ export default function Map({ roomID, seeker }) {
           </div>
         </div>
       }
+      {
+        (Date.now()>new Date(msg["endTime"]).getTime()) ?
+        <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
+          <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
+            <div style={{backgroundColor: "white", padding: "50px", borderRadius: "15px", display: "flex", alignContent: "center", marginTop: "-65px"}}>
+              {seeker ? <span style={{fontSize: "70px"}}>You Lost!</span>
+                      : <span style={{fontSize: "70px"}}>Victory</span>}
+            </div>
+            <br></br>
+            <div style={{backgroundColor: "white", padding: "20px", borderRadius: "15px", display: "flex", alignContent: "center"}}>
+              {seeker ? <span style={{fontSize: "25px"}}>Time is up!</span>
+                      : <span style={{fontSize: "25px"}}>Congratuation!</span>}
+            </div>
+          </div>
+        </div>
+        : ""
+      }
       <div>
-        {console.log(data)}
-    
+        {/* {console.log(data)} */}
         <div style={{ display: "flex", justifyContent: "center"}} >
           <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
             <span>Join code: {roomID}</span>
@@ -228,13 +244,14 @@ export default function Map({ roomID, seeker }) {
             <span>Your role: {seeker ? "Seeker" : "Hider"}</span>
           </div>
         </div>
+        
         {startTime && 
         <div style={{ display: "flex", justifyContent: "center"}} >
           <div className="map-float" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
             <CountDownTimer style={{ zIndex: "1", marginLeft: "15px" }} hoursMinSecs={msg["endTime"]}/>
           </div>
         </div>}
-        <div style={{ marginTop: "-80px" }}>
+        <div style={{ marginTop: "-120px" }}>
           <GoogleMap
             zoom={16}
             center={{ lat: 42.0565, lng: -87.6753 }}
