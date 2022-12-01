@@ -6,6 +6,8 @@ import {
 } from "@react-google-maps/api";
 import React, { useState } from "react";
 import { useDbUpdate, useDbData, useDbDelete } from "../utilities/firebase";
+import CountDownTimer from './Timer';
+
 
 function submitLoc(setLat, setLong, updateDb, data) {
   navigator.geolocation.getCurrentPosition((position) => {
@@ -53,7 +55,12 @@ export default function Map({ roomID, setHomepage, seeker }) {
   const [updateDb, result] = useDbUpdate(`user/${roomID}/hider`);
   const [data, error] = useDbData(`user/${roomID}/hider`);
 
+  const [endTime, etR] = useDbUpdate(`user/${roomID}/endTime`);
+
+  console.log(endTime);
+
   const [updateDb2, result2] = useDbUpdate(`user/${roomID}/`);
+
 
   const [hidden, sethidden] = useState(false);
 
@@ -211,6 +218,11 @@ export default function Map({ roomID, setHomepage, seeker }) {
       }
       <div>
         {console.log(data)}
+        <div style={{ display: "flex", justifyContent: "center"}} >
+          <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
+          <CountDownTimer hoursMinSecs={endTime}/>
+          </div>
+        </div>
         <div style={{ display: "flex", justifyContent: "center"}} >
           <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
             <span>Join code: {roomID}</span>

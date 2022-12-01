@@ -10,6 +10,17 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
   const [data, error] = useDbData("user/");
 
   const enterGroup = (evt) => {
+
+    // Load the Group Start and end time beofre joining the group from the firebase
+    /*
+    startTime = new Date();
+    console.log('Starttime: ---->? ' + startTime);
+    setStartTime(startTime);
+    endTime = add_minutes(startTime, 20);
+    console.log('endtime: ---->? ' + endTime);
+    setEndTime(endTime);
+    */
+    
     const group = document.getElementById("group").value;
     // console.log(Object.keys(data));
     console.log(!data);
@@ -27,12 +38,20 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
     return false;
   };
 
+  var add_minutes =  function (dt, minutes) {
+    return new Date(dt.getTime() + minutes*60000);
+}
+
   const createGroup = () => {
     let random = document.getElementById("randomNum").innerText;
     setRoomID(random);
+    const startTime = new Date();
+    const endTime = add_minutes(startTime, 20);
     submitGroup({
       [random]: {
         ["hider"]: { "1": "0,0" },
+        ["startTime"]: startTime,
+        ["endTime"]: endTime
       },
     });
     setHomepage(false);
