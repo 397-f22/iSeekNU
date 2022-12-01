@@ -6,6 +6,17 @@ const CountDownTimer = ({hoursMinSecs}) => {
     var dateFuture = new Date(hoursMinSecs);
     var dateNow = new Date();
 
+    if (dateFuture < dateNow){
+        setTimerExpired();
+        return (
+            <div>
+                <h3>Time is Up!</h3> 
+            </div>
+        );
+
+    }
+
+    console.log(timerExpired);
     var seconds = Math.floor((dateFuture - (dateNow))/1000);
     var minutes = Math.floor(seconds/60);
     var hours = Math.floor(minutes/60);
@@ -28,7 +39,7 @@ const CountDownTimer = ({hoursMinSecs}) => {
     const tick = () => {
    
         if (hrs === 0 && mins === 0 && secs === 0) 
-            setTimerExpired();
+            reset();
         else if (mins === 0 && secs === 0) {
             setTime([hrs - 1, 59, 59]);
         } else if (secs === 0) {
@@ -47,16 +58,6 @@ const CountDownTimer = ({hoursMinSecs}) => {
         return () => clearInterval(timerId);
     });
 
-
-    if (dateFuture < dateNow){
-        return (
-            <div>
-                <h3>Time is Up!</h3> 
-            </div>
-        );
-
-    }else{
-    
     return (
         <div>
             <h4>Time Left: {`${hours.toString().padStart(2, '0')}:${minutes
@@ -64,9 +65,8 @@ const CountDownTimer = ({hoursMinSecs}) => {
             .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}</h4> 
         </div>
     );
-            }
 }
 
 export default CountDownTimer;
-export const timerExpired = false;
+export var timerExpired = false;
 export const setTimerExpired = () => {timerExpired = true;} 

@@ -199,38 +199,25 @@ export default function Map({ roomID, setHomepage, seeker }) {
   return (isLoaded && data) ? (
 
     <div>
-      { !(Object.keys(data).length > 1 || noHider) && 
+      { !(Object.keys(data).length > 1 || noHider || timerExpired) && 
         <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
           <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
-            <div style={{backgroundColor: "white", padding: "50px", borderRadius: "15px", display: "flex", alignContent: "center", marginTop: "-65px"}}>
-              {seeker ? <span style={{fontSize: "70px"}}>Victory!</span>
-                      : <span style={{fontSize: "70px"}}>You Lost!</span>}
+            <div style={{backgroundColor: "black", padding: "50px", borderRadius: "15px", display: "flex", alignContent: "center", marginTop: "-65px"}}>
+            {timerExpired ? 
+              seeker ? <span style={{fontSize: "70px"}}>Time is Up..</span> : <span style={{fontSize: "70px"}}>Victory!</span> 
+              : 
+              seeker ? <span style={{fontSize: "70px"}}>Victory!</span>: <span style={{fontSize: "70px"}}>You Lost!</span>}
             </div>
             <br></br>
-            <div style={{backgroundColor: "white", padding: "20px", borderRadius: "15px", display: "flex", alignContent: "center"}}>
-              {seeker ? <span style={{fontSize: "25px"}}>You found all of the hiders</span>
-                      : <span style={{fontSize: "25px"}}>Find a better spot next time</span>}
+            <div style={{backgroundColor: "black", padding: "20px", borderRadius: "15px", display: "flex", alignContent: "center"}}>
+            {timerExpired ? 
+              seeker ? <span style={{fontSize: "25px"}}>You failed to find all of the hiders within the given time.</span> : <span style={{fontSize: "25px"}}>Congratulations, you stayed hidden for the whole game!</span>
+              : 
+              seeker ? <span style={{fontSize: "25px"}}>You found all of the hiders</span> : <span style={{fontSize: "25px"}}>Find a better spot next time</span>}
             </div>
           </div>
         </div>
       }
-      
-      { (timerExpired) && 
-        <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
-          <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
-            <div style={{backgroundColor: "Black", padding: "50px", borderRadius: "15px", display: "flex", alignContent: "center", marginTop: "-65px"}}>
-              {seeker ? <span style={{fontSize: "70px"}}>Time is Up..</span>
-                      : <span style={{fontSize: "70px"}}>Victory!</span>}
-            </div>
-            <br></br>
-            <div style={{backgroundColor: "Black", padding: "20px", borderRadius: "15px", display: "flex", alignContent: "center"}}>
-              {seeker ? <span style={{fontSize: "25px"}}>You failed to find all of the hiders within the given time.</span>
-                      : <span style={{fontSize: "25px"}}>Congratulations, you stayed hidden for the whole game!</span>}
-            </div>
-          </div>
-        </div>
-      }
-
       <div>
        {console.log(data)}
         <div style={{ display: "flex", justifyContent: "center"}} >
@@ -248,6 +235,30 @@ export default function Map({ roomID, setHomepage, seeker }) {
             <span>Your role: {seeker ? "Seeker" : "Hider"}</span>
           </div>
         </div>
+
+
+
+        <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
+          <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
+            <div style={{backgroundColor: "black", padding: "50px", borderRadius: "15px", display: "flex", alignContent: "center", marginTop: "-65px"}}>
+            {timerExpired ? 
+              seeker ? <span style={{fontSize: "70px"}}>Time is Up..</span> : <span style={{fontSize: "70px"}}>Victory!</span> 
+              : 
+              seeker ? <span style={{fontSize: "70px"}}>Victory!</span>: <span style={{fontSize: "70px"}}>You Lost!</span>}
+            </div>
+            <br></br>
+            <div style={{backgroundColor: "black", padding: "20px", borderRadius: "15px", display: "flex", alignContent: "center"}}>
+            {timerExpired ? 
+              seeker ? <span style={{fontSize: "25px"}}>You failed to find all of the hiders within the given time.</span> : <span style={{fontSize: "25px"}}>Congratulations, you stayed hidden for the whole game!</span>
+              : 
+              seeker ? <span style={{fontSize: "25px"}}>You found all of the hiders</span> : <span style={{fontSize: "25px"}}>Find a better spot next time</span>}
+            </div>
+          </div>
+        </div>
+
+
+
+
         <div style={{ marginTop: "-80px" }}>
           <GoogleMap
             zoom={16}
