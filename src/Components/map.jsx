@@ -5,7 +5,7 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 import React, { useState } from "react";
-import { useDbUpdate, useDbData, useDbDelete } from "../utilities/firebase";
+import { useDbUpdate, useDbData, useDbDelete, useDbRead } from "../utilities/firebase";
 import CountDownTimer from './Timer';
 
 
@@ -49,22 +49,17 @@ function getLoc(setLat, setLong, updateDb, data) {
 }
 
 export default function Map({ roomID, setHomepage, seeker }) {
+
   const [longitude, setLongitude] = useState(-87.6753);
   const [latitude, setLatitude] = useState(42.0565);
   // Get position of user
   const [updateDb, result] = useDbUpdate(`user/${roomID}/hider`);
   const [data, error] = useDbData(`user/${roomID}/hider`);
-
-  const [endTime, etR] = useDbUpdate(`user/${roomID}/endTime`);
-
-  console.log(endTime);
-
   const [updateDb2, result2] = useDbUpdate(`user/${roomID}/`);
-
-
   const [hidden, sethidden] = useState(false);
-
   const [noHider, setNoHider] = useState(true);
+
+  const [endTime, etR] = useDbData(`user/${roomID}/endTime`);
 
   // if (error) return <h1>Error loading data: {error.toString()}</h1>;
   // if (data === undefined) return <h1>Loading data...</h1>;

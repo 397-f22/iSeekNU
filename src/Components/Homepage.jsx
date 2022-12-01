@@ -12,7 +12,7 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
   const enterGroup = (evt) => {
 
     // Load the Group Start and end time beofre joining the group from the firebase
-    /*
+    /*qui
     startTime = new Date();
     console.log('Starttime: ---->? ' + startTime);
     setStartTime(startTime);
@@ -45,13 +45,10 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
   const createGroup = () => {
     let random = document.getElementById("randomNum").innerText;
     setRoomID(random);
-    const startTime = new Date();
-    const endTime = add_minutes(startTime, 20);
     submitGroup({
       [random]: {
         ["hider"]: { "1": "0,0" },
-        ["startTime"]: startTime,
-        ["endTime"]: endTime
+        ["endTime"]: add_minutes(new Date(), 20)
       },
     });
     setHomepage(false);
@@ -65,7 +62,6 @@ const Homepage = ({ setRoomID, setHomepage, seeker, setSeeker }) => {
 
 
   return (
-    
     <div style={{ marginTop: "50px" }}>
       <div style={{ textAlign: "center"}}>
         <p style={{fontSize: "20px"}}>Your Group Number</p>

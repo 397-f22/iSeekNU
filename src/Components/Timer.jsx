@@ -50,9 +50,9 @@ const CountDownTimer = ({hoursMinSecs}) => {
     
     return (
         <div>
-            <p>Time Left: {`${hrs.toString().padStart(2, '0')}:${mins
+            <p>Time Left: {`${hours.toString().padStart(2, '0')}:${minutes
             .toString()
-            .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}</p> 
+            .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}</p> 
         </div>
     );
 }
