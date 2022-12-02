@@ -1,4 +1,4 @@
-const Navbar = ({isHomepage, setHomepage}) => {
+const Navbar = () => {
   return (
     <div
       style={{
@@ -9,24 +9,16 @@ const Navbar = ({isHomepage, setHomepage}) => {
         justifyContent: "center",
       }}
     >
-      {!isHomepage && <button onClick={() => setHomepage(true)} style={{backgroundColor: "transparent", position: "fixed", top: "0", left: "0"}}>
+      {<button onClick={() => window.location.href = "/"} style={{backgroundColor: "transparent", top: "0"}}>
         <span style={{
-          color: "white",
-          fontSize: "30px",
-          fontWeight: "bolder"
-        }}> {"❮"} </span>
-      </button>}
-      <span
-        style={{
           color: "white",
           alignSelf: "center",
           fontFamily: "Poppins",
           fontSize: "30px",
           fontWeight: "bolder",
-        }}
-      >
-        iSeekNU
-      </span>
+        }}> iSeekNU </span>
+      </button>}
+      
     </div>
   );
 };

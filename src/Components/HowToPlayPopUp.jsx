@@ -1,6 +1,6 @@
 import React from "react";
-import "./HowToPlayPopUp.css";
-export const HowToPlayPopup = ({ closePopup }) => {
+import "./PopUp.css";
+export const HowToPlayPopup = ({closePopup }) => {
   return (
       <div style={{display: "flex", justifyContent: "center"}}>
       <div style={{position: "absolute", transform: "translateY(-75%)"}}>

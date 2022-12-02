@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
-import { getDatabase, onValue, update, ref, remove } from 'firebase/database';
+import { getDatabase, onValue, child, get, update, ref, remove } from 'firebase/database';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBRRmxzqO-vWcUfg815V52XTZVCiyySFq8",
@@ -38,6 +38,8 @@ const makeResult = (error) => {
   return { timestamp, error, message };
 };
 
+
+
 export const useDbUpdate = (path) => {
   const [result, setResult] = useState();
   const updateData = useCallback((value) => {
@@ -49,8 +51,16 @@ export const useDbUpdate = (path) => {
   return [updateData, result];
 };
 
+export const useDbRead = (roomID, date) => {
+  return ref(database, `/user/${roomID}/${date}`);
+};
 
 export const useDbDelete = (roomID, m_key) => {
   const taskRef = ref(database, `/user/${roomID}/hider/${m_key}`);
+  remove(taskRef);
+};
+
+export const useDbDeleteRoom = (roomID) => {
+  const taskRef = ref(database, `/user/${roomID}`);
   remove(taskRef);
 };
