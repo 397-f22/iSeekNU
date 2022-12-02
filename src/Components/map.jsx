@@ -71,7 +71,11 @@ export default function Map({ roomID, setHomepage, seeker }) {
   const refresh = () => {
     updateDb2({ hider: "" });
   };
+<<<<<<< HEAD
   const startHidingTime = () => {
+=======
+  const startHidertime = () => {
+>>>>>>> Dimitrios
     if(!msg["state"])
     updateDb2({"endTime": new Date(Date.now()+5000),
                 "state": 2})
@@ -81,9 +85,16 @@ export default function Map({ roomID, setHomepage, seeker }) {
     updateDb2({"endTime": new Date(Date.now()+5000),
                 "state": 1})
   }
+  
   const restart = () => {
+<<<<<<< HEAD
     // updateDb2({ "hider": {"1": "0,0"}, ["state"]: 0 });
     window.location.href = "/";
+=======
+    updateDb2({ "hider": {"1": "0,0"}, ["state"]: 0, "endTime": new Date(2055, 3, 24, 10, 33, 30)});
+    window.location.href = `/${roomID}/${seeker?"seeker":"hider"}`;
+    // window.location.href = "/";
+>>>>>>> Dimitrios
   };
 
   const options = {
@@ -212,6 +223,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
   });
 
 
+<<<<<<< HEAD
  function GameOver (){
   var dateFuture = new Date(msg["endTime"]);
   var dateNow = new Date();
@@ -225,41 +237,92 @@ export default function Map({ roomID, setHomepage, seeker }) {
     dateNow = new Date();
   }
   else if ((msg["state"] == 1 && dateNow >= dateFuture) || !(Object.keys(data).length > 1 || noHider) ) {
+=======
+ const GameOver = () =>{
+  if(msg["state"]>1 && !(Object.keys(data).length > 1 || noHider) ){
+    updateDb2({["state"]: 4 }); // find all the hiders
+  }else if (new Date() >= new Date(msg["endTime"]) && msg["state"]==1) {
+    updateDb2({"endTime": new Date(Date.now()+60*60000),
+                "state": 2})
+  }else if(new Date() >= new Date(msg["endTime"]) && msg["state"]==2){
+    updateDb2({["state"]: 3 }); // time is up
+  }
+ 
+}
 
-    return (
-      <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
+React.useEffect(() => {
+  const timerId = setInterval(() => GameOver(), 800);
+  return () => clearInterval(timerId);
+});
+>>>>>>> Dimitrios
+
+const Result = () => {
+  switch(msg["state"]) {
+    case 3: // time is up
+      return (
+        <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
         <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
           <div style={{backgroundColor: "black", "opacity": 0.8, padding: "45px", borderRadius: "15px", display: "flex", alignContent: "center", marginTop: "-65px"}}>
-          {dateNow >= dateFuture ? 
-            seeker ? <span style={{fontSize: "70px"}}>Time is Up..</span> : <span style={{fontSize: "70px"}}>Victory!</span> 
-            : 
-            seeker ? <span style={{fontSize: "70px"}}>Victory!</span>: <span style={{fontSize: "70px"}}>You Lost!</span>}
+            {
+            seeker ? <span style={{fontSize: "70px"}}>Sorry, you lose.</span> : <span style={{fontSize: "70px"}}>Congrats, you win.</span> 
+            }
           </div>
           <br></br>
           <div style={{backgroundColor: "black", "opacity": 0.8, padding: "15px", borderRadius: "15px", display: "flex", alignContent: "center"}}>
-          {dateNow >= dateFuture ? 
-            seeker ? <span style={{fontSize: "25px"}}>You failed to find all of the hiders within the given time. Please note that clicking on go home will disband the group.</span> : <span style={{fontSize: "25px"}}>Congratulations, you stayed hidden for the whole game!</span>
-            : 
-            seeker ? <span style={{fontSize: "25px"}}>You found all of the hiders. Please note that clicking on go home will disband the group.</span> : <span style={{fontSize: "25px"}}>Find a better spot next time</span>}
-          
+          {
+            seeker ? <span style={{fontSize: "25px"}}>You failed to find all of the hiders within the given time. Please note that clicking on go home will disband the group.</span> 
+            : <span style={{fontSize: "25px"}}>Congratulations, you stayed hidden for the whole game!</span>
+          }
           </div>
           <br></br>
           <br></br>
-          {<button style={{zIndex: "1"}} onClick = {restart} >GO TO HOMEPAGE</button>}
-          {/* {seeker ? <button style={{ zIndex: "1" }} disabled={hidden} onClick={() => { useDbDeleteRoom(roomID); setHomepage(true)}}>Go Home</button> : <></>} */}
+          {<button style={{zIndex: "1"}} onClick = {restart} >RESTART</button>}
         </div>
       </div>
-    )
+      );
+      case 4: // Find all the hiders
+      return (
+        <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
+        <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
+          <div style={{backgroundColor: "black", "opacity": 0.8, padding: "45px", borderRadius: "15px", display: "flex", alignContent: "center", marginTop: "-65px"}}>
+            {
+            seeker ? <span style={{fontSize: "70px"}}>Congrats, you win.</span> : <span style={{fontSize: "70px"}}>Sorry, you lose.</span> 
+            }
+          </div>
+          <br></br>
+          <div style={{backgroundColor: "black", "opacity": 0.8, padding: "15px", borderRadius: "15px", display: "flex", alignContent: "center"}}>
+          {
+            seeker ? <span style={{fontSize: "25px"}}>You found all of the hiders. Please note that clicking on go home will disband the group.</span> 
+            : <span style={{fontSize: "25px"}}>Find a better spot next time</span>
+          }
+          </div>
+          <br></br>
+          <br></br>
+<<<<<<< HEAD
+          {<button style={{zIndex: "1"}} onClick = {restart} >GO TO HOMEPAGE</button>}
+          {/* {seeker ? <button style={{ zIndex: "1" }} disabled={hidden} onClick={() => { useDbDeleteRoom(roomID); setHomepage(true)}}>Go Home</button> : <></>} */}
+=======
+          {<button style={{zIndex: "1"}} onClick = {restart} >RESTART</button>}
+>>>>>>> Dimitrios
+        </div>
+      </div>
+      );
+    default:
+      return '';
   }
-
-  
 }
+
 
   return (isLoaded && data) ? (
 
     <div>      
+<<<<<<< HEAD
         {mode == 2 ? GameOver():""}
         {mode == 1 ? GameOver():""}
+=======
+      {<Result/>}
+
+>>>>>>> Dimitrios
       <div>
 
        {/* {console.log(data)} */}
@@ -345,7 +408,11 @@ export default function Map({ roomID, setHomepage, seeker }) {
               DONE HIDING
             </button>
           )}
+<<<<<<< HEAD
           {seeker && <button style={{zIndex: "1"}} onClick = {startHidingTime} >START GAME</button>}
+=======
+          {seeker && <button style={{zIndex: "1"}} onClick = {startHidertime} >START GAME</button>}
+>>>>>>> Dimitrios
           {/* <button style={{zIndex: "1"}} onClick = {refresh} >Refresh</button> */}
           <button
             style={{ zIndex: "1", marginLeft: "15px" }}

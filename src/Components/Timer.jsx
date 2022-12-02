@@ -56,12 +56,22 @@ const CountDownTimer = ({hoursMinSecs, state, mode, setMode}) => {
     // if (dateNow >= dateFuture){
     //     return (<div><h3>Time is Up!</h3> </div>);
     // }
+<<<<<<< HEAD
     if (state == 0){
         return (<div><h4>{mode} Time: 00:20:00</h4> </div>);
     }
     return (
         <div>
             <h4>{mode} Time: {`${hours.toString().padStart(2, '0')}:${minutes
+=======
+    if (state == 0)
+        return (<div><h4>Hide Time Left: 00:20:00</h4> </div>);
+    else if(state > 2)
+        return (<div><h4>Seek Time Left: 00:00:00</h4> </div>);
+    return (
+        <div>
+            <h4>{state==1?"Hide":"Seek"}Time Left: {`${hours.toString().padStart(2, '0')}:${minutes
+>>>>>>> Dimitrios
             .toString()
             .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}</h4> 
         </div>
