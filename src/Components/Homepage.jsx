@@ -39,16 +39,13 @@ const Homepage = () => {
     return false;
   };
 
-  var add_minutes =  function (dt, minutes) {
-    return new Date(dt.getTime() + minutes*60000);
-}
 
   const createGroup = () => {
     let random = document.getElementById("randomNum").innerText;
     submitGroup({
       [random]: {
         ["hider"]: { "1": "0,0" },
-        ["endTime"]: add_minutes(new Date(), timerMinutes),
+        ["endTime"]: new Date(2055, 3, 24, 10, 33, 30),
         ["state"]: 0
       },
     });
