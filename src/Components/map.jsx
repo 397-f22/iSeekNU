@@ -63,7 +63,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
 
   
   const [msg, etR] = useDbData(`user/${roomID}`);
-
+  const [mode, setMode] = useState(0);
   // if (error) return <h1>Error loading data: {error.toString()}</h1>;
   // if (data === undefined) return <h1>Loading data...</h1>;
   // if (!data) return <h1>No data found</h1>;
@@ -71,14 +71,19 @@ export default function Map({ roomID, setHomepage, seeker }) {
   const refresh = () => {
     updateDb2({ hider: "" });
   };
-  const startTime = () => {
+  const startHidingTime = () => {
     if(!msg["state"])
-    updateDb2({"endTime": new Date(Date.now()+20*60000),
+    updateDb2({"endTime": new Date(Date.now()+5000),
+                "state": 2})
+  }
+
+  const startSeekingTime = () => {
+    updateDb2({"endTime": new Date(Date.now()+5000),
                 "state": 1})
   }
   const restart = () => {
-    updateDb2({ "hider": {"1": "0,0"}, ["state"]: 0 });
-    window.location.href = `/${roomID}/${seeker?"seeker":"hider"}`;
+    // updateDb2({ "hider": {"1": "0,0"}, ["state"]: 0 });
+    window.location.href = "/";
   };
 
   const options = {
@@ -210,8 +215,16 @@ export default function Map({ roomID, setHomepage, seeker }) {
  function GameOver (){
   var dateFuture = new Date(msg["endTime"]);
   var dateNow = new Date();
-
-  if (dateNow >= dateFuture || !(Object.keys(data).length > 1 || noHider) ) {
+  // console.log(msg["state"])
+  console.log(dateFuture);
+  console.log(msg["state"])
+  // console.log(dateNow >= dateFuture)
+  if (msg["state"] == 2 && dateNow >= dateFuture) {
+    startSeekingTime();
+    dateFuture = new Date(msg["endTime"]);
+    dateNow = new Date();
+  }
+  else if ((msg["state"] == 1 && dateNow >= dateFuture) || !(Object.keys(data).length > 1 || noHider) ) {
 
     return (
       <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
@@ -232,7 +245,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
           </div>
           <br></br>
           <br></br>
-          {<button style={{zIndex: "1"}} onClick = {restart} >RESTART</button>}
+          {<button style={{zIndex: "1"}} onClick = {restart} >GO TO HOMEPAGE</button>}
           {/* {seeker ? <button style={{ zIndex: "1" }} disabled={hidden} onClick={() => { useDbDeleteRoom(roomID); setHomepage(true)}}>Go Home</button> : <></>} */}
         </div>
       </div>
@@ -245,17 +258,24 @@ export default function Map({ roomID, setHomepage, seeker }) {
   return (isLoaded && data) ? (
 
     <div>      
-        {msg["state"]? GameOver():""}
+        {mode == 2 ? GameOver():""}
+        {mode == 1 ? GameOver():""}
       <div>
 
        {/* {console.log(data)} */}
-
+        {mode == 1 ? 
         <div style={{ display: "flex", justifyContent: "center"}} >
           <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
-          <CountDownTimer hoursMinSecs={msg["endTime"]} state={msg["state"]}/>
+          <CountDownTimer hoursMinSecs={msg["endTime"]} state={msg["state"]} mode={"Seeking "} setMode={setMode} />
           </div>
         </div>
-
+        :
+        <div style={{ display: "flex", justifyContent: "center"}} >
+          <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
+          <CountDownTimer hoursMinSecs={msg["endTime"]} state={msg["state"]} mode={"Hiding "} setMode={setMode}/>
+          </div>
+        </div>
+        }
         <div style={{ display: "flex", justifyContent: "center"}} >
           <div className="map-float" style={{display: "flex", alignItems: "center", justifyContent: "center", height: "30px", width: "50vw", borderRadius: "10px", zIndex: "1", marginTop: "10px"}}>
             <span>Join code: {roomID}</span>
@@ -270,7 +290,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
         </div>
 
         
-        <div style={{ marginTop: "-120px" }}>
+        <div style={{ marginTop: "-140px" }}>
           <GoogleMap
             zoom={16}
             center={{ lat: 42.0565, lng: -87.6753 }}
@@ -325,7 +345,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
               DONE HIDING
             </button>
           )}
-          {seeker && <button style={{zIndex: "1"}} onClick = {startTime} >START GAME</button>}
+          {seeker && <button style={{zIndex: "1"}} onClick = {startHidingTime} >START GAME</button>}
           {/* <button style={{zIndex: "1"}} onClick = {refresh} >Refresh</button> */}
           <button
             style={{ zIndex: "1", marginLeft: "15px" }}

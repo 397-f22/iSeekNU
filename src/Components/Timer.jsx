@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CountDownTimer = ({hoursMinSecs, state}) => {
+const CountDownTimer = ({hoursMinSecs, state, mode, setMode}) => {
 
     //Future Date
     var dateFuture = new Date(hoursMinSecs);
@@ -14,8 +14,11 @@ const CountDownTimer = ({hoursMinSecs, state}) => {
     hours = hours-(days*24);
     minutes = minutes-(days*24*60)-(hours*60);
     seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
-
-
+    console.log(hours, minutes, seconds)
+    if (hours == 0 && minutes == 0 && seconds == 0 && state == 2) {
+        setMode(1);
+        console.log(state)
+    }
     /*
     console.log('hoursMinSecs: ----> ' + hoursMinSecs);
     console.log('hours: ----> ' + hours);
@@ -27,9 +30,11 @@ const CountDownTimer = ({hoursMinSecs, state}) => {
 
 
     const tick = () => {
-   
+        
         if (hrs === 0 && mins === 0 && secs === 0) {
-           reset();
+            
+            reset();
+           
         }
         else if (mins === 0 && secs === 0) {
             setTime([hrs - 1, 59, 59]);
@@ -52,11 +57,11 @@ const CountDownTimer = ({hoursMinSecs, state}) => {
     //     return (<div><h3>Time is Up!</h3> </div>);
     // }
     if (state == 0){
-        return (<div><h4>Time Left: 00:20:00</h4> </div>);
+        return (<div><h4>{mode} Time: 00:20:00</h4> </div>);
     }
     return (
         <div>
-            <h4>Time Left: {`${hours.toString().padStart(2, '0')}:${minutes
+            <h4>{mode} Time: {`${hours.toString().padStart(2, '0')}:${minutes
             .toString()
             .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}</h4> 
         </div>

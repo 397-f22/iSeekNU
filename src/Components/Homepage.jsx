@@ -48,6 +48,7 @@ const Homepage = () => {
     submitGroup({
       [random]: {
         ["hider"]: { "1": "0,0" },
+        // ["hideTime"]: new Date(Date.getTime() + 120*60000),
         ["endTime"]: add_minutes(new Date(), timerMinutes),
         ["state"]: 0
       },
