@@ -210,7 +210,7 @@ export default function Map({ roomID, setHomepage, seeker }) {
 
 
  const GameOver = () =>{
-  if(msg["state"]>1 && !(Object.keys(data).length > 1 || noHider) ){
+  if(msg["state"]>0 && !(Object.keys(data).length > 1 || noHider) ){
     updateDb2({["state"]: 4 }); // find all the hiders
   }else if (new Date() >= new Date(msg["endTime"]) && msg["state"]==1) {
     updateDb2({"endTime": new Date(Date.now()+60*60000),
