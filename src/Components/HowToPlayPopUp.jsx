@@ -6,7 +6,7 @@ export const HowToPlayPopup = ({closePopup }) => {
       <div style={{position: "absolute", transform: "translateY(-75%)"}}>
         <div style={{textAlign: "center", width: "80vw", border: "0.5px solid black", borderRadius: "5px", padding: "5px 10px 5px 10px", backgroundColor: "black", opacity:0.95}}>
         <div style={{display: "flex", justifyContent: "right"}}>
-        <button onClick={closePopup}>Close X</button>
+        <button data-testid = "close" onClick={closePopup}>Close X</button>
         </div>
             <h1>Steps on how to play the game:</h1>
             <ul style={{textAlign: "center", listStylePosition: "inside"}}>

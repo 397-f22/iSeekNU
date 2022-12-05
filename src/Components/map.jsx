@@ -278,7 +278,7 @@ const Result = () => {
 }
 
 
-  return (isLoaded && data) ? (
+  return (
 
     <div>      
       {<Result/>}
@@ -373,8 +373,6 @@ const Result = () => {
         </div>
       </div>
     </div>
-  ) : (
-    <></>
-  );
+  )
   //42.0451° N, 87.6877°W
 }

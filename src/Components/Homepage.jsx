@@ -65,7 +65,7 @@ const Homepage = () => {
         <p style={{fontSize: "20px"}}>Your Group Number</p>
         <div style={{marginTop: "50px"}}>{random}</div>
         <div style={{marginTop: "20px"}}>
-          <button id="create" className="btn btn-dark" onClick={() => createGroup()}>
+          <button data-testid = "create" id="create" className="btn btn-dark" onClick={() => createGroup()}>
             <span>Create Group</span>
           </button>
         </div>
@@ -73,10 +73,10 @@ const Homepage = () => {
 
       <div style={{ textAlign: "center", marginTop: "30px" }}>
         <p style={{fontSize: "20px"}}>Already have a group? </p>
-        <div><input type="text" id="group" placeholder="Enter code here" style={{height: "30px", width: "60vw", textAlign: "center", fontSize: "20px", borderRadius: "10px", border: "0.5px solid black"}}></input></div>
+        <div><input data-testid = "input" type="text" id="group" placeholder="Enter code here" style={{height: "30px", width: "60vw", textAlign: "center", fontSize: "20px", borderRadius: "10px", border: "0.5px solid black"}}></input></div>
         <div style={{marginTop: "20px"}}>
         {openInvalid ? <InvalidCodePopUp closePopup={() => setOpenInvalid(false)} /> : null}
-          <button type="submit" className="btn btn-dark" onClick={enterGroup}>
+          <button data-testid = "join" type="submit" className="btn btn-dark" onClick={enterGroup}>
             <span>Join Group</span>
           </button>
         </div>
@@ -108,7 +108,7 @@ const Homepage = () => {
         </button>
         <div>
         <br></br>
-        <button onClick={() => setOpen(true)}>How to Play?</button>
+        <button data-testid = "how" onClick={() => setOpen(true)}>How to Play?</button>
         {open ? <HowToPlayPopup closePopup={() => setOpen(false)} /> : null}
         </div>
         <br></br>
