@@ -1,8 +1,6 @@
-import { describe, it } from 'vitest';
-import { getAllByText,getByText, render, screen, expect } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { getAllByText,getByText, render, screen } from '@testing-library/react';
 import App from "./App"
-import Homepage from "./Components/Homepage"
-import Map from "./Components/map"
 
 describe("selection", ()=>{
     it("shows the correct role", async()=>{
@@ -26,7 +24,9 @@ describe("selection", ()=>{
     it("changes to the correct role when clicked (Fail)", async()=>{
         const button = await screen.getByTestId("seeker");
         button.click();
-        await screen.findByText("I am a Hider")
+        const texts = await screen.queryAllByText("I am a Hider");
+        //there shouldn't be such string because seeker is clicked
+        expect(texts.length == 0).toBeTruthy();
        })
     }
 )
