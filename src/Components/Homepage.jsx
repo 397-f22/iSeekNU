@@ -85,6 +85,7 @@ const Homepage = () => {
       <div style={{ textAlign: "center", marginTop: "30px" }}>
         <p style={{fontSize: "20px"}}>I am a {seeker ? "Seeker" : "Hider"}</p>
         <button
+          data-testid = "seeker"
           style={{ backgroundColor: seeker ?  "#4E2A84" : "#f9f9f9",  width: "30vw" }}
           type="submit"
           className="btn btn-dark"
@@ -95,6 +96,7 @@ const Homepage = () => {
           <span style={{color: seeker ? "white" : "#213547"}}>Seeker</span>
         </button>
         <button
+          data-testid = "hider"
           style={{ backgroundColor: seeker ? "#f9f9f9" : "#4E2A84", width: "30vw" }}
           type="submit"
           className="btn btn-dark"

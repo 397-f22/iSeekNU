@@ -1,5 +1,5 @@
 import { describe, it } from 'vitest';
-import { getAllByText,getByText, render, screen } from '@testing-library/react';
+import { getAllByText,getByText, render, screen, expect } from '@testing-library/react';
 import App from "./App"
 import Homepage from "./Components/Homepage"
 import Map from "./Components/map"
@@ -13,10 +13,20 @@ describe("selection", ()=>{
 )
 
 describe("selection", ()=>{
-    it("changes to the correct role when clicked", async()=>{
+    it("changes to the correct role when clicked (Success)", async()=>{
         const button = await screen.getByTestId("seeker");
         button.click();
         await screen.findByText("I am a Seeker");
+       })
+    }
+)
+
+
+describe("selection", ()=>{
+    it("changes to the correct role when clicked (Fail)", async()=>{
+        const button = await screen.getByTestId("seeker");
+        button.click();
+        await screen.findByText("I am a Hider")
        })
     }
 )
