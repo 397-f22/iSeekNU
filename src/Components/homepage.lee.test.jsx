@@ -10,7 +10,7 @@ import Hompage from "./Homepage";
 describe("how to play", () => {
   it("should open a modal and allow you to close the page", async () => {
     render(<Hompage />);
-    const btn = await screen.findByTestId("how");
+    const btn = await screen.findByTestId("instructions");
     btn.click();
     await screen.queryAllByText(/Steps on how to play the game/);
 
