@@ -29,7 +29,7 @@ function submitLoc(setLat, setLong, updateDb, data) {
   });
 }
 
-function getLoc(setLat, setLong, updateDb, data) {
+export function getLoc(setLat, setLong, updateDb, data) {
   if (navigator.geolocation) {
     navigator.geolocation.watchPosition(showPosition);
   } else {
@@ -56,7 +56,9 @@ export default function Map({ roomID, setHomepage, seeker }) {
   const [latitude, setLatitude] = useState(42.0565);
   // Get position of user
   const [updateDb, result] = useDbUpdate(`user/${roomID}/hider`);
+  console.log(updateDb);
   const [data, error] = useDbData(`user/${roomID}/hider`);
+  console.log(data);
   const [updateDb2, result2] = useDbUpdate(`user/${roomID}/`);
   const [hidden, sethidden] = useState(false);
   const [noHider, setNoHider] = useState(true);
