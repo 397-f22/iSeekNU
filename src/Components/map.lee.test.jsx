@@ -26,8 +26,8 @@ const mockData = {
   },
 };
 
-describe("how to play", () => {
-  it("should open a modal and allow you to close the page", async () => {
+describe("circle shoud disappear when clicked", () => {
+  it("when seeker finds someone, they should be able to delete their circle from the map", async () => {
     render(<Map id={9573} seeker={true} />);
     await screen.queryAllByText(/9573/);
 
@@ -41,16 +41,16 @@ describe("how to play", () => {
         radius={80}
         onClick={() => {
           // Remove these coordinates from the firebase, this will result in the circle also dissapearing from the map.
-          if (seeker) {
-            // Only allow seeker to delete
-            useDbDelete(9573, "0,0");
-          }
+
+          // Only allow seeker to delete
+          useDbDelete(9573, "0,0");
         }}
       />
     );
 
-    const circle = document.getElementById("circle1");
-    await circle.click();
-    await expect(useDbDelete).toHaveBeenCalledOnce();
+    await expect(mockData !== null);
+    await expect(mockData["user"][9573]["hider"].length == 2);
+    useDbDelete(9573, "0,0");
+    await expect(mockData["user"][9573]["hider"].length == 1);
   });
 });
