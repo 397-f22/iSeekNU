@@ -62,6 +62,7 @@ const Homepage = () => {
         <div style={{ marginTop: "50px" }}>{random}</div>
         <div style={{ marginTop: "20px" }}>
           <button
+            data-testid="createtest"
             id="create"
             className="btn btn-dark"
             onClick={() => createGroup()}
@@ -75,6 +76,7 @@ const Homepage = () => {
         <p style={{ fontSize: "20px" }}>Already have a group? </p>
         <div>
           <input
+            data-testid="group"
             type="text"
             id="group"
             placeholder="Enter code here"
@@ -92,7 +94,7 @@ const Homepage = () => {
           {openInvalid ? (
             <InvalidCodePopUp closePopup={() => setOpenInvalid(false)} />
           ) : null}
-          <button type="submit" className="btn btn-dark" onClick={enterGroup}>
+          <button data-testid="entergroup" type="submit" className="btn btn-dark" onClick={enterGroup}>
             <span>Join Group</span>
           </button>
         </div>
