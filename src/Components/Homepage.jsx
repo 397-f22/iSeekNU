@@ -76,7 +76,7 @@ const Homepage = () => {
         <div><input type="text" id="group" placeholder="Enter code here" style={{height: "30px", width: "60vw", textAlign: "center", fontSize: "20px", borderRadius: "10px", border: "0.5px solid black"}}></input></div>
         <div style={{marginTop: "20px"}}>
         {openInvalid ? <InvalidCodePopUp closePopup={() => setOpenInvalid(false)} /> : null}
-          <button type="submit" className="btn btn-dark" onClick={enterGroup}>
+          <button data-testid = "join" type="submit" className="btn btn-dark" onClick={enterGroup}>
             <span>Join Group</span>
           </button>
         </div>

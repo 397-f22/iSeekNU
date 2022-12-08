@@ -230,7 +230,7 @@ const Result = () => {
   switch(msg["state"]) {
     case 3: // time is up
       return (
-        <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
+        <div data-testid = "timeUp" style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
         <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
           <div style={{backgroundColor: "black", "opacity": 0.8, padding: "45px", borderRadius: "15px", display: "flex", alignContent: "center", marginTop: "-65px"}}>
             {
@@ -252,7 +252,7 @@ const Result = () => {
       );
       case 4: // Find all the hiders
       return (
-        <div style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
+        <div data-testid = "wonUp" style={{position: "absolute", height: "calc(100vh - 65px)", width: "100vw", backgroundColor: "rgba(128,128,128,0.6)", zIndex: "2"}}>
         <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
           <div style={{backgroundColor: "black", "opacity": 0.8, padding: "45px", borderRadius: "15px", display: "flex", alignContent: "center", marginTop: "-65px"}}>
             {
